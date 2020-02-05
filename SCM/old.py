@@ -219,6 +219,19 @@
 #         return ensemble
 
 
+# def coupe(variables):
+#     # print(f'\tcoupe : {variables}')
+#     for i, v in enumerate(variables):
+#         # print(f'\tv : {variables[v]}')
+#         if not variables[v].impossible_a_couper():
+#             # print("\t\ton coupe")
+#             part1 = deepcopy(variables)
+#             part2 = deepcopy(variables)
+#             element_a_garder = part2[v].domaine.pop()
+#             part1[v].domaine = element_a_garder
+#             # print(f'\t\tpart1 : {part1}\n\t\tpart2 : {part2}')
+#             return part1, part2
+#     return None, None
 
 
 def propagation_0(variables, contraintes, solutions, profondeur):

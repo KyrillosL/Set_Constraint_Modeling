@@ -9,16 +9,16 @@ def trellis(ens):
     for i in range(int(pow(2, size_ens))):
         s = str(size_ens)
         ss = '{0:0' + s + 'b}'
-        print(f'{i} : {ss.format(i)}')
+        # print(f'{i} : {ss.format(i)}')
         lst_bool.add(ss.format(i))
-    print(lst_bool)
+    # print(lst_bool)
     ens = list(ens)
     tre = []
     for e in lst_bool:
-        print(e)
+        # print(e)
         el = []
         for i, j in enumerate(e):
-            print(f'{i} : {j}')
+            # print(f'{i} : {j}')
             if j == "1":
                 el.append(ens[i])
         tre.append(set(el))
@@ -43,6 +43,19 @@ class Ensemble:
             if element not in self.borneSup:
                 return False
         return True
+
+    def __copy__(self):
+        new_ensemble = Ensemble(str(self.nom), {}, const=bool(self.const))
+        new_ensemble.borneSup = deepcopy(self.borneSup)
+        new_ensemble.borneInf = deepcopy(self.borneInf)
+        return new_ensemble
+
+    def __deepcopy__(self, memodict={}):
+        new_ensemble = Ensemble(str(self.nom), {}, const=bool(self.const))
+        new_ensemble.borneSup = deepcopy(self.borneSup)
+        new_ensemble.borneInf = deepcopy(self.borneInf)
+        return new_ensemble
+
 
     def split(self):
         ens_fils = []
