@@ -110,10 +110,10 @@ def main6equipes():
     variables['s2=(1, 3)'] = Ensemble('s2=(1, 3)', domaine={1, 3}, const=True)
     contraintes.append(Egal('2_2', 's2=(1, 3)', 0))
 
-    variables['s2=(3, 4)'] = Ensemble('s2=(3, 4)', domaine={3, 4}, const=True)
-    contraintes.append(Egal('3_0', 's2=(3, 4)', 0))
-    variables['s2=(0, 5)'] = Ensemble('s2=(0, 5)', domaine={0, 5}, const=True)
-    contraintes.append(Egal('3_1', 's2=(0, 5)', 0))
+    # variables['s2=(3, 4)'] = Ensemble('s2=(3, 4)', domaine={3, 4}, const=True)
+    # contraintes.append(Egal('3_0', 's2=(3, 4)', 0))
+    # variables['s2=(0, 5)'] = Ensemble('s2=(0, 5)', domaine={0, 5}, const=True)
+    # contraintes.append(Egal('3_1', 's2=(0, 5)', 0))
     # variables['s2=(1, 2)'] = Ensemble('s2=(1, 2)', domaine={1, 2}, const=True)
     # contraintes.append(Egal('3_2', 's2=(1, 2)', 0))
     solutions = []

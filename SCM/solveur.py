@@ -56,20 +56,20 @@ def coupe(variables, contraintes, solutions, profondeur, une_seule_solution=Fals
         # print(colored(diff_domaines, 'red'))
         old = variables.pop(to_split)
 
-        if profondeur <= 0:
-            from joblib import Parallel, delayed
-            backend = 'loky'  # 'loky' 'threading' 'multiprocessing'
-            Parallel(n_jobs=len(diff_domaines), backend=backend)(
-                    delayed(lance_propa)(old, d, variables, contraintes, solutions, profondeur, une_seule_solution,
-                                         to_split) for d in diff_domaines)
-        else:
-            for d in diff_domaines:
-                e = Ensemble(old.nom, domaine=d, const=True)
-                variables[to_split] = e
-                # print(colored(variables, 'blue'))
-                propagation(deepcopy(variables), contraintes, solutions, profondeur + 1,
-                            une_seule_solution=une_seule_solution)
-            variables[to_split] = old
+        # if profondeur <= 0:
+        #     from joblib import Parallel, delayed
+        #     backend = 'loky'  # 'loky' 'threading' 'multiprocessing'
+        #     Parallel(n_jobs=len(diff_domaines), backend=backend)(
+        #             delayed(lance_propa)(old, d, variables, contraintes, solutions, profondeur, une_seule_solution,
+        #                                  to_split) for d in diff_domaines)
+        # else:
+        for d in diff_domaines:
+            e = Ensemble(old.nom, domaine=d, const=True)
+            variables[to_split] = e
+            # print(colored(variables, 'blue'))
+            propagation(deepcopy(variables), contraintes, solutions, profondeur + 1,
+                        une_seule_solution=une_seule_solution)
+        variables[to_split] = old
 
 
 def verification_contraintes(variables, contraintes, solutions):
