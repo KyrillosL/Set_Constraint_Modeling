@@ -1,16 +1,7 @@
-from copy import deepcopy
-
 from termcolor import colored
 
 from SCM.contraintes import ContraiteException
 from SCM.ensemble import Ensemble
-
-
-# import pickle
-#
-#
-# def deepcopy(a):
-#     return pickle.loads(pickle.dumps(a, -1))
 
 
 class FinRechercheException(Exception):
@@ -36,8 +27,10 @@ def filtrage(variables, contraintes):
 def lance_propa(old, d, variables, contraintes, solutions, profondeur, une_seule_solution, to_split):
     e = Ensemble(old.nom, domaine=d, const=True)
     variables[to_split] = e
-    # print(colored(variables, 'blue'))
-    propagation(deepcopy(variables), contraintes, solutions, profondeur + 1,
+    new_var = dict()
+    for st, el in variables.items():
+        new_var[st] = el.duplicate()
+    propagation(new_var, contraintes, solutions, profondeur + 1,
                 une_seule_solution=une_seule_solution)
 
 
@@ -67,7 +60,10 @@ def coupe(variables, contraintes, solutions, profondeur, une_seule_solution=Fals
             e = Ensemble(old.nom, domaine=d, const=True)
             variables[to_split] = e
             # print(colored(variables, 'blue'))
-            propagation(deepcopy(variables), contraintes, solutions, profondeur + 1,
+            new_var = dict()
+            for st, el in variables.items():
+                new_var[st] = el.duplicate()
+            propagation(new_var, contraintes, solutions, profondeur + 1,
                         une_seule_solution=une_seule_solution)
         variables[to_split] = old
 
@@ -89,9 +85,6 @@ def verification_contraintes(variables, contraintes, solutions):
 
 
 def propagation(variables, contraintes, solutions, profondeur, une_seule_solution=False):
-    # if profondeur < 3:
-    #     print(f'p{profondeur} variables : {variables}')
-
     # filtrage des variables
     filtrage_ok = filtrage(variables, contraintes)
 
@@ -101,6 +94,7 @@ def propagation(variables, contraintes, solutions, profondeur, une_seule_solutio
         contraintes_ok = verification_contraintes(variables, contraintes, solutions)
 
         if contraintes_ok:
+            from copy import deepcopy
             solutions.append(deepcopy(variables))
             print(colored(f'\tsolution {len(solutions)} : {variables}', 'green'))
             if une_seule_solution:
