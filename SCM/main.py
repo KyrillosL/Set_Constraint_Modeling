@@ -4,8 +4,36 @@ from termcolor import colored
 
 from SCM.contraintes import *
 from SCM.ensemble import Ensemble
-from SCM.outils import *
 from SCM.solveur import propagation, FinRechercheException
+
+
+def creation_rencontres(n=8):
+    return [(i, j) for i in range(0, n) for j in range(i, n) if i != j]
+
+
+def conditions(n=8):
+    s = n - 1
+    p = n // 2
+    r = creation_rencontres(n)
+    return n, s, p, r
+
+
+def affiche_conditions(n, s, p, r):
+    print(f'Conditions de la recherche de planification:')
+    print(f'Nombre d\'équipes en jeu : {n}')
+    print(f'Nombre de semaines : {s}')
+    print(f'Nombre de périodes : {p}')
+    print(f'Rencontres : {r}')
+    print("Semaines :")
+    for i in range(s):
+        print(f's{i} : {r[i * p:i * p + p]}')
+    print("Périodes :")
+    for i in range(p):
+        print(f'p{i} : {r[i::p]}')
+
+
+def r_to_m(r, s, p):
+    return [r[i * p:i * p + p] for i in range(s)]
 
 
 def solution_to_matrice(sol, n, s, p):
@@ -118,12 +146,12 @@ def main6equipes():
     # contraintes.append(Egal('3_2', 's2=(1, 2)', 0))
     solutions = []
 
-    contraintes.sort(key=lambda x: x.priorite, reverse=False)
+    contraintes.sort(key=lambda x: x.priorite, reverse=True)
 
     print('Contraintes')
     pprint(contraintes)
     try:
-        propagation(variables, contraintes, solutions, 0, une_seule_solution=False)
+        propagation(variables, contraintes, solutions, 0, une_seule_solution=True)
     except FinRechercheException:
         pass
 
