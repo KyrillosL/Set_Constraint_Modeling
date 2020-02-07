@@ -1,6 +1,5 @@
+from copy import copy as deepcopy
 from math import pow
-
-from SCM.contraintes import *
 
 
 def trellis(ens):
@@ -9,16 +8,13 @@ def trellis(ens):
     for i in range(int(pow(2, size_ens))):
         s = str(size_ens)
         ss = '{0:0' + s + 'b}'
-        # print(f'{i} : {ss.format(i)}')
         lst_bool.add(ss.format(i))
-    # print(lst_bool)
     ens = list(ens)
     tre = []
     for e in lst_bool:
         # print(e)
         el = []
         for i, j in enumerate(e):
-            # print(f'{i} : {j}')
             if j == "1":
                 el.append(ens[i])
         tre.append(set(el))
@@ -31,7 +27,7 @@ class Ensemble:
         self.nom = nom
         self.const = const
         if domaine is None:
-            domaine = {}
+            domaine = set()
         self.borneSup = domaine
         if const:
             self.borneInf = domaine
@@ -44,18 +40,53 @@ class Ensemble:
                 return False
         return True
 
-    def __copy__(self):
+    def duplicate(self):
         new_ensemble = Ensemble(str(self.nom), {}, const=bool(self.const))
-        new_ensemble.borneSup = deepcopy(self.borneSup)
-        new_ensemble.borneInf = deepcopy(self.borneInf)
+        if type(self.borneInf) == int:
+            new_ensemble.borneInf = self.borneInf
+            new_ensemble.borneSup = self.borneSup
+        else:
+            new_borne_inf = set()
+            for i in self.borneInf:
+                new_borne_inf.add(i)
+            new_ensemble.borneInf = new_borne_inf
+            new_borne_sup = set()
+            for i in self.borneSup:
+                new_borne_sup.add(i)
+            new_ensemble.borneSup = new_borne_sup
         return new_ensemble
 
-    def __deepcopy__(self, memodict={}):
-        new_ensemble = Ensemble(str(self.nom), {}, const=bool(self.const))
-        new_ensemble.borneSup = deepcopy(self.borneSup)
-        new_ensemble.borneInf = deepcopy(self.borneInf)
-        return new_ensemble
-
+    # def __copy__(self):
+    #     new_ensemble = Ensemble(str(self.nom), {}, const=bool(self.const))
+    #     if type(self.borneInf) == int:
+    #         new_ensemble.borneInf = self.borneInf
+    #         new_ensemble.borneSup = self.borneSup
+    #     else:
+    #         new_borne_inf = set()
+    #         for i in self.borneInf:
+    #             new_borne_inf.add(i)
+    #         new_ensemble.borneInf = new_borne_inf
+    #         new_borne_sup = set()
+    #         for i in self.borneSup:
+    #             new_borne_sup.add(i)
+    #         new_ensemble.borneSup = new_borne_sup
+    #     return new_ensemble
+    #
+    # def __deepcopy__(self, memodict={}):
+    #     new_ensemble = Ensemble(str(self.nom), {}, const=bool(self.const))
+    #     if type(self.borneInf) == int:
+    #         new_ensemble.borneInf = self.borneInf
+    #         new_ensemble.borneSup = self.borneSup
+    #     else:
+    #         new_borne_inf = set()
+    #         for i in self.borneInf:
+    #             new_borne_inf.add(i)
+    #         new_ensemble.borneInf = new_borne_inf
+    #         new_borne_sup = set()
+    #         for i in self.borneSup:
+    #             new_borne_sup.add(i)
+    #         new_ensemble.borneSup = new_borne_sup
+    #     return new_ensemble
 
     def split(self):
         ens_fils = []

@@ -1,13 +1,6 @@
-# import pickle
 from abc import ABC, abstractmethod
-from copy import deepcopy
+# from copy import copy as deepcopy
 
-
-# def deepcopy(a):
-#     return pickle.loads(pickle.dumps(a, -1))
-
-
-# from inspect import currentframe, getframeinfo
 
 class ContraiteException(Exception):
     pass
@@ -92,6 +85,10 @@ class Egal(ContrainteBinaire):
             var1.borneInf = var2.borneInf
             var1.const = True
             return True
+        if var1.const and not var2.const:
+            var2.borneInf = var1.borneInf
+            var2.const = True
+            return True
         return False
 
 
@@ -107,7 +104,7 @@ class Cardinalite(ContrainteBinaire):
         # frameinfo = getframeinfo(currentframe())
         # print(frameinfo.filename.split('/')[-1], frameinfo.lineno)
         # print(f'Const? var1 {var1.const} var2 {var2.const}')
-        return len(var1.borneInf) == var2.borneInf
+        return (len(var1.borneInf) <= var2.borneInf) and (len(var1.borneSup) >= var2.borneSup)
 
     def filtre(self, variables):
         var1 = variables[self.var1]
@@ -149,7 +146,7 @@ class Union(ContrainteTernaire):
         var1 = variables[self.var1]
         var2 = variables[self.var2]
         var3 = variables[self.var3]
-        var1tmp = deepcopy(var1)
+        var1tmp = var1.duplicate()
         var1.borneInf |= (var2.borneInf | var3.borneInf)
         var1.borneSup &= (var2.borneSup | var3.borneSup)
         if not var1.valide():
@@ -177,9 +174,9 @@ class Intersection(ContrainteTernaire):
         var1 = variables[self.var1]
         var2 = variables[self.var2]
         var3 = variables[self.var3]
-        var1tmp = deepcopy(var1)
-        var2tmp = deepcopy(var2)
-        var3tmp = deepcopy(var3)
+        var1tmp = var1.duplicate()
+        var2tmp = var2.duplicate()
+        var3tmp = var3.duplicate()
         var1.borneInf |= (var2.borneInf & var3.borneInf)
         var2.borneInf |= var1.borneInf
         var3.borneInf |= var1.borneInf
@@ -225,10 +222,10 @@ class Intersection3(ContrainteQuaternaire):
         var2 = variables[self.var2]
         var3 = variables[self.var3]
         var4 = variables[self.var4]
-        var1tmp = deepcopy(var1)
-        var2tmp = deepcopy(var2)
-        var3tmp = deepcopy(var3)
-        var4tmp = deepcopy(var4)
+        var1tmp = var1.duplicate()
+        var2tmp = var2.duplicate()
+        var3tmp = var3.duplicate()
+        var4tmp = var4.duplicate()
         var1.borneInf |= (var2.borneInf & var3.borneInf & var4.borneInf)
         var2.borneInf |= var1.borneInf
         var3.borneInf |= var1.borneInf
@@ -253,8 +250,8 @@ class Inclusion(ContrainteBinaire):
     def filtre(self, variables):
         var1 = variables[self.var1]
         var2 = variables[self.var2]
-        var1tmp = deepcopy(var1)
-        var2tmp = deepcopy(var2)
+        var1tmp = var1.duplicate()
+        var2tmp = var2.duplicate()
 
         var1.borneSup &= var2.borneSup
         var2.borneInf |= var1.borneInf
@@ -278,8 +275,8 @@ class Exclusion(ContrainteBinaire):
     def filtre(self, variables):
         var1 = variables[self.var1]
         var2 = variables[self.var2]
-        var1tmp = deepcopy(var1)
-        var2tmp = deepcopy(var2)
+        var1tmp = var1.duplicate()
+        var2tmp = var2.duplicate()
 
         var1.borneSup &= var2.borneSup
         var2.borneInf |= var1.borneInf
