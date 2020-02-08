@@ -2,24 +2,6 @@ from copy import copy as deepcopy
 from math import pow
 
 
-def trellis(ens):
-    size_ens = len(ens)
-    lst_bool = set()
-    for i in range(int(pow(2, size_ens))):
-        s = str(size_ens)
-        ss = '{0:0' + s + 'b}'
-        lst_bool.add(ss.format(i))
-    ens = list(ens)
-    tre = []
-    for e in lst_bool:
-        el = []
-        for i, j in enumerate(e):
-            if j == "1":
-                el.append(ens[i])
-        tre.append(set(el))
-    return tre
-
-
 class Ensemble:
 
     def __init__(self, nom, domaine=None, const=False):
@@ -60,15 +42,6 @@ class Ensemble:
             new_borne_sup.add(i)
         new_ensemble.borneSup = new_borne_sup
         return new_ensemble
-
-    def split_old(self):
-        if self.value is None:
-            ens_fils = []
-            for t in trellis(self.borneSup - self.borneInf):
-                ens_fils.append(deepcopy(self.borneInf.union(t)))
-            return ens_fils
-        else:
-            return [self.value]
 
     def split(self):
         if self.value is None:
