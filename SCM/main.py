@@ -84,7 +84,7 @@ def get_num_var(variable, nom):
 
 
 def main6equipes():
-    n, s, p, r = conditions(10)
+    n, s, p, r = conditions(8)
     affiche_conditions(n, s, p, r)
     variables = []
     contraintes = []

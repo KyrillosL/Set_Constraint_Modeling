@@ -8,7 +8,7 @@ class FinRechercheException(Exception):
     pass
 
 
-def filtrage(variables, contraintes):
+def filtrage_old(variables, contraintes):
     filtrage_ok = True
     try:
         modif = True
@@ -20,6 +20,16 @@ def filtrage(variables, contraintes):
                 # print(modif)
     except ContraiteException as e:
         # print(e)
+        filtrage_ok = False
+    return filtrage_ok
+
+
+def filtrage(variables, contraintes):
+    filtrage_ok = True
+    try:
+        while any([contrainte.filtre(variables) for contrainte in contraintes]):
+            pass
+    except ContraiteException:
         filtrage_ok = False
     return filtrage_ok
 
@@ -61,7 +71,8 @@ def coupe(variables, contraintes, solutions, profondeur, une_seule_solution=Fals
             from joblib import Parallel, delayed
             backend = 'loky'  # 'loky' 'threading' 'multiprocessing'
             Parallel(n_jobs=len(diff_domaines), backend=backend)(
-                    delayed(joblib_launch)(d, to_split, var, old, contr, solutions, profondeur, une_seule_solution) for d
+                    delayed(joblib_launch)(d, to_split, var, old, contr, solutions, profondeur, une_seule_solution) for
+                    d
                     in diff_domaines)
         else:
             for d in diff_domaines:
@@ -90,6 +101,7 @@ def propagation(variables, contraintes, solutions, profondeur, une_seule_solutio
     filtrage_ok = filtrage(variables, contraintes)
 
     if filtrage_ok:
+        # print('profondeur : ', profondeur)
         coupe(variables, contraintes, solutions, profondeur, une_seule_solution=une_seule_solution)
 
         contraintes_ok = verification_contraintes(variables, contraintes, solutions)

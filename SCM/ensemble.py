@@ -61,12 +61,28 @@ class Ensemble:
         new_ensemble.borneSup = new_borne_sup
         return new_ensemble
 
-    def split(self):
+    def split_old(self):
         if self.value is None:
             ens_fils = []
             for t in trellis(self.borneSup - self.borneInf):
                 ens_fils.append(deepcopy(self.borneInf.union(t)))
             return ens_fils
+        else:
+            return [self.value]
+
+    def split(self):
+        if self.value is None:
+            ens = list(self.borneSup - self.borneInf)
+            size_ens = len(ens)
+            for a in range(int(pow(2, size_ens))):
+                s = str(size_ens)
+                ss = '{0:0' + s + 'b}'
+                ss = ss.format(a)
+                el = []
+                for i, j in enumerate(ss):
+                    if j == "1":
+                        el.append(ens[i])
+                yield deepcopy(self.borneInf.union(set(el)))
         else:
             return [self.value]
 
