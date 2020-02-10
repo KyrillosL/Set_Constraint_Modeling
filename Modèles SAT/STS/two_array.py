@@ -37,7 +37,7 @@ for w in range(week):
 
 
 #####SYMETRIEEEESSS
-#L'équipe 6 ne peut pas jouer en team2
+#L'équipe 6 ne peut pas jouer en team1
 for w in range(week):
     for p in range(period):
         exp &= -sol[w][p][0][team-1]

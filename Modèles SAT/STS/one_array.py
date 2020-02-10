@@ -63,7 +63,7 @@ for w in range(week):
                     exp &= ( (sol[w][p][t] & sol[w][p][t2]) >> -(sol[w2][p][t] & sol[w2][p][t2]))
                     #exp &= ( (sol[w][p][t] & sol[w][p][t2]) >> -(sol[w2][p2][t] & sol[w2][p2][t2]))
 
-#C2 Pas deux fois le même match dans une  Periode
+#C2 Pas deux fois le même match dans une  Periode et une semaine différente
 for w in range(week):
     for w2 in range(w+1, week):
         for p in range(period):
