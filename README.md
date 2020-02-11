@@ -21,7 +21,7 @@ projet CSP M2
 
 | améliorations           | SGP | STS |
 |-------------------------|-----|-----|
-| symétries               |     |  X  |
+| symétries               |  X  |  X  |
 | contraintes redondantes |     |     |
 | ordre des contraites    |     |  X  |
 
@@ -29,9 +29,9 @@ projet CSP M2
 
 | résolution             | SGP | STS |
 |------------------------|-----|-----|
-| implantation du modèle |     |  X  |
-| comparer les modèles   |     |     |
-| analyser les résultats |     |     |
+| implantation du modèle |  X  |  X  |
+| comparer les modèles   |  X  |  X  |
+| analyser les résultats |  X  |  X  |
 
 # 2 Solveur pour les contraintes ensemblistes
 
@@ -54,4 +54,10 @@ Trois parties :
 # Bibliographie
 
 ...
+
+Lancer la recherche sur le STS avec 8 équipes en recherchant une seule solution :
+    
+    pypy3 main.py -n 8 -s 1
+    
+    python3 main.py -n 8 -s 1
 
