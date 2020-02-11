@@ -13,23 +13,23 @@ projet CSP M2
 
 | modèle                   | SGP | STS |
 |--------------------------|-----|-----|
-| contraintes ensemblistes |     |     |
-| FD entier                |     |     |
-| SAT                      |     |     |
+| contraintes ensemblistes |  X  |  X  |
+| FD entier                |  X  |  X  |
+| SAT                      |  X  |  X  |
 
 ## 1.2 Modèle amélioré
 
 | améliorations           | SGP | STS |
 |-------------------------|-----|-----|
-| symétries               |     |     |
+| symétries               |     |  X  |
 | contraintes redondantes |     |     |
-| ordre des contraites    |     |     |
+| ordre des contraites    |     |  X  |
 
 ## 1.3 Résolution
 
 | résolution             | SGP | STS |
 |------------------------|-----|-----|
-| implantation du modèle |     |     |
+| implantation du modèle |     |  X  |
 | comparer les modèles   |     |     |
 | analyser les résultats |     |     |
 
@@ -37,7 +37,7 @@ projet CSP M2
 
 Au choix:
 
-- solveur ensembliste
+- solveur ensembliste : X
 - encodage SAT
 - réduction et encodage
 
