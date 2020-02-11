@@ -33,7 +33,8 @@ def sous_propagation(d, to_split, new_ensemble, old, new_contraintes, solutions,
 
 
 def tri_ensembles_contraintes(ensembles, contraintes):
-    liste_rank = [len(x.borneSup) - len(x.borneInf) for x in ensembles]
+    # liste_rank = [len(x.borneSup) - len(x.borneInf) for x in ensembles]
+    liste_rank = [range(len(ensembles),-1) for x in ensembles]
     liste_noms = [x.nom for x in ensembles]
     _, nouvelle_liste_nom, new_ensemble = zip(*sorted(zip(liste_rank, liste_noms, ensembles)))
     new_ensemble = list(new_ensemble)
@@ -62,9 +63,9 @@ def coupe(ensembles, contraintes, solutions, profondeur, une_solution=False):
         to_split = next(v for v in new_ensemble if not v.const)
         old = new_ensemble.index(to_split)
 
-        # # Si nous sommes au premier niveau on lance en parallele
-        # # Suppression de cette option car consomme trop de ressources pour le resultat obtenu
-        # if profondeur == -1:
+        # Si nous sommes au premier niveau on lance en parallele
+        # Suppression de cette option car consomme trop de ressources pour le resultat obtenu
+        # if profondeur == 0:
         #     from joblib import Parallel, delayed
         #     backend = 'loky'  # 'loky' 'threading' 'multiprocessing'
         #     Parallel(n_jobs=8, backend=backend)(

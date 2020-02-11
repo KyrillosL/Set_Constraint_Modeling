@@ -278,9 +278,62 @@ class Intersection3(ContrainteQuaternaire):
         var3.borneInf |= var1.borneInf
         var4.borneInf |= var1.borneInf
         var1.borneSup &= (var2.borneSup & var3.borneSup & var4.borneSup)
-        if not (var1.valide() and var2.valide() and var3.valide()):
+        if not (var1.valide() and var2.valide() and var3.valide() and var4.valide()):
             return -1
         return int(var1 != var1tmp or var2 != var2tmp or var3 != var3tmp or var4 != var4tmp)
 
     def duplicate(self):
         return Intersection3(self.var1, self.var2, self.var3, self.var4, self.priorite)
+
+
+class ContrainteQuinaire(Contrainte, ABC):
+
+    def __init__(self, contrainte, var1, var2, var3, var4, var5, priorite):
+        super().__init__(contrainte, priorite)
+        self.var1 = var1
+        self.var2 = var2
+        self.var3 = var3
+        self.var4 = var4
+        self.var5 = var5
+
+    def __str__(self):
+        return str(self.var1) + " = " + str(self.var2) + self.contrainte + \
+               str(self.var3) + self.contrainte + str(self.var4) + self.contrainte + str(self.var5)
+
+
+class Intersection4(ContrainteQuinaire):
+
+    def __init__(self, var1, var2, var3, var4, var5, priorite):
+        super().__init__(" Intersection ", var1, var2, var3, var4, var5, priorite)
+
+    def validation_contrainte(self, ensembles):
+        var1 = ensembles[self.var1]
+        var2 = ensembles[self.var2]
+        var3 = ensembles[self.var3]
+        var4 = ensembles[self.var4]
+        var5 = ensembles[self.var5]
+        return var1.borneInf == var2.borneInf.intersection(var3.borneInf).intersection(var4.borneInf).intersection(var5.borneInf)
+
+    def filtre(self, ensembles):
+        var1 = ensembles[self.var1]
+        var2 = ensembles[self.var2]
+        var3 = ensembles[self.var3]
+        var4 = ensembles[self.var4]
+        var5 = ensembles[self.var5]
+        var1tmp = var1.duplicate()
+        var2tmp = var2.duplicate()
+        var3tmp = var3.duplicate()
+        var4tmp = var4.duplicate()
+        var5tmp = var5.duplicate()
+        var1.borneInf |= (var2.borneInf & var3.borneInf & var4.borneInf & var5.borneInf)
+        var2.borneInf |= var1.borneInf
+        var3.borneInf |= var1.borneInf
+        var4.borneInf |= var1.borneInf
+        var5.borneInf |= var1.borneInf
+        var1.borneSup &= (var2.borneSup & var3.borneSup & var4.borneSup & var5.borneSup)
+        if not (var1.valide() and var2.valide() and var3.valide() and var4.valide() and var5.valide()):
+            return -1
+        return int(var1 != var1tmp or var2 != var2tmp or var3 != var3tmp or var4 != var4tmp or var5 != var5tmp)
+
+    def duplicate(self):
+        return Intersection4(self.var1, self.var2, self.var3, self.var4, self.var5, self.priorite)

@@ -1,4 +1,4 @@
-from copy import copy as deepcopy
+from copy import copy
 from math import pow
 
 
@@ -55,7 +55,7 @@ class Ensemble:
                 for i, j in enumerate(ss):
                     if j == "1":
                         el.append(ens[i])
-                yield deepcopy(self.borneInf.union(set(el)))
+                yield copy(self.borneInf.union(set(el)))
         else:
             return [self.value]
 

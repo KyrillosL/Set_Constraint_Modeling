@@ -62,10 +62,10 @@ def launch_STS(n, une_solution):
 
     # Contraintes d'unicite
     for i, nom in enumerate(liste_noms_ensembles):
-        contraintes.append(Cardinalite(get_num_var(ensembles, nom), get_num_var(ensembles, 'card2'), 1))
+        contraintes.append(Cardinalite(get_num_var(ensembles, nom), get_num_var(ensembles, 'card2'), 0))
         for nom1 in liste_noms_ensembles[i + 1:]:
             if nom != nom1:
-                contraintes.append(Different(get_num_var(ensembles, nom), get_num_var(ensembles, nom1), 2))
+                contraintes.append(Different(get_num_var(ensembles, nom), get_num_var(ensembles, nom1), 1))
 
     # Contrainte semaines
     for i, nom in enumerate(liste_noms_ensembles):
@@ -82,13 +82,13 @@ def launch_STS(n, une_solution):
                 if nom != nom1 and nom != nom2 and nom1 != nom2 and nom < nom1 < nom2:
                     if nom[-1] == nom1[-1] == nom2[-1]:
                         contraintes.append(Intersection3(get_num_var(ensembles, 'vide'), get_num_var(ensembles, nom),
-                                                         get_num_var(ensembles, nom1), get_num_var(ensembles, nom2), 2))
+                                                         get_num_var(ensembles, nom1), get_num_var(ensembles, nom2), 4))
 
     # Cassage de sysmetrie
     for i, j in enumerate(range(0, n, 2)):
         ensembles.append(Ensemble('s1=' + str((j, j + 1)), domaine={j, j + 1}, const=True))
         contraintes.append(
-                Egal(get_num_var(ensembles, '0_' + str(i)), get_num_var(ensembles, 's1=' + str((j, j + 1))), 0))
+                Egal(get_num_var(ensembles, '0_' + str(i)), get_num_var(ensembles, 's1=' + str((j, j + 1))), 3))
 
     solutions = []
 
